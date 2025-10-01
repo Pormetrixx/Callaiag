@@ -1,0 +1,80 @@
+version: '3.8'
+
+services:
+  callaiag:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: callaiag-agent
+    restart: unless-stopped
+    ports:
+      - "8080:8080"  # Dashboard
+    volumes:
+      - ./config:/app/config
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ./scripts:/app/scripts
+      - ./faqs:/app/faqs
+      - ./temp:/app/temp
+    environment:
+      - CALLAIAG_LOG_LEVEL=INFO
+      - CALLAIAG_DB_TYPE=sqlite
+    depends_on:
+      - db
+      - asterisk
+    networks:
+      - callaiag-network
+
+  db:
+    image: mysql:8.0
+    container_name: callaiag-db
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=rootpassword
+      - MYSQL_DATABASE=callaiag
+      - MYSQL_USER=callaiag
+      - MYSQL_PASSWORD=change_me
+    volumes:
+      - db-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - callaiag-network
+
+  asterisk:
+    image: andrius/asterisk:latest
+    container_name: callaiag-asterisk
+    restart: unless-stopped
+    ports:
+      - "5038:5038"  # AMI
+      - "5060:5060/udp"  # SIP
+      - "10000-10100:10000-10100/udp"  # RTP
+    volumes:
+      - asterisk-config:/etc/asterisk
+      - asterisk-sounds:/var/lib/asterisk/sounds
+      - asterisk-records:/var/spool/asterisk/monitor
+    networks:
+      - callaiag-network
+
+  mimic3:
+    image: mycroftai/mimic3
+    container_name: callaiag-mimic3
+    restart: unless-stopped
+    ports:
+      - "59125:59125"
+    volumes:
+      - mimic3-voices:/home/mimic3/.local/share/mycroft/mimic3
+    command: ["--voice", "de_DE/thorsten-emotional"]
+    networks:
+      - callaiag-network
+
+volumes:
+  db-data:
+  asterisk-config:
+  asterisk-sounds:
+  asterisk-records:
+  mimic3-voices:
+
+networks:
+  callaiag-network:
+    driver: bridge
