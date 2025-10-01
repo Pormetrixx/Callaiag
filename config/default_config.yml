@@ -1,0 +1,89 @@
+# Callaiag Configuration File
+# This is the default configuration for the Callaiag AI Agent system
+
+# General settings
+general:
+  debug: false
+  log_level: INFO
+  language: de-DE
+
+# Database configuration
+database:
+  type: sqlite  # Options: sqlite, mysql, postgresql
+  path: ./data/callaiag.db  # For SQLite
+  # MySQL/PostgreSQL settings (uncomment if using)
+  # host: localhost
+  # port: 3306  # 3306 for MySQL, 5432 for PostgreSQL
+  # name: callaiag
+  # user: callaiag
+  # password: change_me
+
+# Asterisk PBX integration
+asterisk:
+  enabled: true
+  host: localhost
+  port: 5038
+  username: callaiag
+  password: change_me
+  context: outbound
+  extension: s
+  priority: 1
+  channel_type: SIP
+  caller_id: "Callaiag <1000>"
+  trunk: trunk
+
+# Speech processing configuration
+speech:
+  # Speech-to-Text (STT)
+  stt:
+    engine: whisper
+    whisper_model: medium  # Options: tiny, base, small, medium, large
+    language: de  # Language code for recognition
+    device: cpu  # Options: cpu, cuda
+
+  # Text-to-Speech (TTS)
+  tts:
+    engine: mimic3  # Options: mimic3, coqui
+    voice: de_DE/thorsten-emotional
+    rate: 1.0
+    pitch: 0.0
+    volume: 1.0
+
+  # Audio settings
+  audio:
+    input_device: null  # null for default device
+    output_device: null  # null for default device
+    sample_rate: 16000
+    channels: 1
+    format: wav
+    temp_dir: ./temp
+
+# Conversation management
+conversation:
+  default_script: default
+  timeout: 10.0  # seconds
+  max_duration: 300  # seconds (5 minutes)
+  emotion_threshold: 0.7  # confidence threshold for emotion detection
+  scripts_dir: ./scripts
+  faqs_dir: ./faqs
+
+# Web dashboard
+dashboard:
+  enabled: true
+  port: 8080
+  host: 0.0.0.0  # Listen on all interfaces
+  admin_user: admin
+  admin_password: admin123  # CHANGE THIS IN PRODUCTION!
+  session_timeout: 3600  # seconds (1 hour)
+
+# Emotion recognition
+emotion:
+  enabled: true
+  model_path: ./models/emotion
+  confidence_threshold: 0.6
+
+# Training and continuous learning
+training:
+  enabled: true
+  min_calls_for_training: 100
+  auto_retrain: false

@@ -1,0 +1,59 @@
+version: '3.8'
+
+services:
+  callaiag:
+    build: .
+    container_name: callaiag-agent
+    volumes:
+      - ./data:/app/data
+      - ./temp:/app/temp
+      - ./scripts:/app/scripts
+      - ./faqs:/app/faqs
+      - ./models:/app/models
+      - ./config:/app/config
+      - ./logs:/app/logs
+    ports:
+      - "8080:8080"  # Dashboard
+    environment:
+      - CALLAIAG_LOG_LEVEL=INFO
+      - CALLAIAG_DATABASE_TYPE=sqlite
+      - CALLAIAG_DATABASE_PATH=/app/data/callaiag.db
+    restart: unless-stopped
+    command: python3 run.py start
+
+  # Optional: MySQL database
+  mysql:
+    image: mysql:8.0
+    container_name: callaiag-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: callaiag
+      MYSQL_USER: callaiag
+      MYSQL_PASSWORD: change_me
+    volumes:
+      - mysql_data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    restart: unless-stopped
+    profiles:
+      - with-mysql
+
+  # Optional: PostgreSQL database
+  postgres:
+    image: postgres:15
+    container_name: callaiag-postgres
+    environment:
+      POSTGRES_DB: callaiag
+      POSTGRES_USER: callaiag
+      POSTGRES_PASSWORD: change_me
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    restart: unless-stopped
+    profiles:
+      - with-postgres
+
+volumes:
+  mysql_data:
+  postgres_data:

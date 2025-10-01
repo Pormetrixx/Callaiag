@@ -1,0 +1,38 @@
+# Callaiag - AI Agent for Automated Cold Calling
+# Python Dependencies
+
+# Core dependencies
+pyyaml>=6.0
+sqlalchemy>=2.0.0
+pymysql>=1.0.2  # For MySQL support
+psycopg2-binary>=2.9.0  # For PostgreSQL support
+
+# Speech processing
+openai-whisper>=20230314
+torch>=2.0.0
+torchaudio>=2.0.0
+sounddevice>=0.4.6
+soundfile>=0.12.1
+pydub>=0.25.1
+
+# TTS engines (optional, install based on preference)
+# mimic3-tts[all]  # Install separately: pip install mimic3-tts[all]
+# TTS>=0.13.0  # Coqui TTS
+
+# Asterisk integration
+# panoramisk>=1.4  # Alternative AMI client (optional)
+
+# Web dashboard (optional)
+flask>=2.3.0
+flask-cors>=4.0.0
+
+# Additional utilities
+python-dateutil>=2.8.2
+requests>=2.31.0
+
+# Development dependencies (optional)
+pytest>=7.4.0
+pytest-cov>=4.1.0
+black>=23.0.0
+flake8>=6.0.0
+mypy>=1.4.0
