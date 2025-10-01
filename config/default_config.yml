@@ -1,0 +1,88 @@
+# Callaiag AI Agent Configuration File
+# This file contains all configuration options for the Callaiag system
+
+general:
+  debug: false
+  log_level: INFO
+  log_file: callaiag.log
+  log_dir: ./logs
+  language: de-DE
+
+database:
+  type: sqlite  # sqlite, mysql, postgresql
+  path: ./data/callaiag.db  # For SQLite
+  host: localhost  # For MySQL/PostgreSQL
+  port: 3306  # MySQL default
+  name: callaiag
+  user: callaiag
+  password: change_me  # IMPORTANT: Change in production
+
+asterisk:
+  enabled: true
+  host: localhost
+  port: 5038
+  username: callaiag
+  password: change_me  # IMPORTANT: Change in production
+  context: outbound
+  extension: s
+  priority: 1
+  channel_type: SIP
+  caller_id: "Callaiag <1000>"
+  trunk: trunk
+
+speech:
+  stt:
+    engine: whisper  # Speech-to-text engine
+    whisper_model: medium  # tiny, base, small, medium, large
+    language: de  # Language code
+    device: cpu  # cpu or cuda
+  
+  tts:
+    engine: mimic3  # Text-to-speech engine (mimic3, coqui)
+    voice: de_DE/thorsten-emotional
+    rate: 1.0  # Speech rate multiplier
+    pitch: 0.0  # Pitch adjustment
+    volume: 1.0  # Volume level
+  
+  audio:
+    input_device: null  # null for default
+    output_device: null  # null for default
+    sample_rate: 16000
+    channels: 1
+    format: wav
+    temp_dir: ./temp
+
+conversation:
+  default_script: default
+  timeout: 10.0  # seconds
+  max_duration: 300  # seconds (5 minutes)
+  emotion_threshold: 0.7  # Confidence threshold for emotion detection
+  scripts_dir: ./scripts
+  faqs_dir: ./faqs
+  response_delay_min: 0.5  # Minimum response delay (seconds)
+  response_delay_max: 2.0  # Maximum response delay (seconds)
+
+human_simulation:
+  natural_delays: true  # Enable natural response delays
+  use_fillers: true  # Enable filler words
+  filler_frequency: 0.15  # Frequency of filler insertion (0.0 to 1.0)
+  hesitation_frequency: 0.10  # Frequency of hesitations (0.0 to 1.0)
+  typing_speed_wpm: 40  # Typing speed for delay calculation
+
+personality:
+  preset: friendly  # Personality preset (friendly, professional, assertive)
+  # Custom trait values (0.0 to 1.0)
+  traits:
+    friendliness: 0.8
+    professionalism: 0.7
+    enthusiasm: 0.6
+    patience: 0.8
+    assertiveness: 0.5
+    empathy: 0.8
+
+dashboard:
+  enabled: true
+  port: 8080
+  host: 0.0.0.0  # Listen on all interfaces
+  admin_user: admin
+  admin_password: admin123  # IMPORTANT: Change in production
