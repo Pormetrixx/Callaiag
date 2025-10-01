@@ -308,7 +308,7 @@ repo.connect()
 repo.initialize_schema()
 
 # Customer operations
-customer = repo.create_customer(
+customer_id = repo.create_customer(
     name='Max Mustermann',
     phone='+49123456789',
     email='max@example.com'
@@ -319,10 +319,10 @@ repo.update_customer(customer.id, notes='VIP customer')
 customers = repo.list_customers(limit=100)
 
 # Call operations
-call = repo.create_call(
+call_db_id = repo.create_call(
     call_id='call-001',
     phone_number='+49123456789',
-    customer_id=customer.id
+    customer_id=customer_id
 )
 
 repo.update_call('call-001', outcome='success', duration=120.5)
@@ -330,7 +330,7 @@ calls = repo.list_calls(limit=50)
 
 # Conversation logs
 repo.add_conversation_log(
-    call_id=call.id,
+    call_id=call_db_id,
     speaker='agent',
     text='Guten Tag!',
     state='greeting'
@@ -340,20 +340,20 @@ logs = repo.get_conversation_logs('call-001')
 
 # Emotion logs
 repo.add_emotion_log(
-    call_id=call.id,
+    call_id=call_db_id,
     emotion='positive',
     confidence=0.8,
     all_emotions={'positive': 0.8, 'neutral': 0.2}
 )
 
 # Scripts and FAQs
-script = repo.create_script(
+script_id = repo.create_script(
     name='greeting_v1',
     script_type='greeting',
     template='Hallo {customer_name}!'
 )
 
-faq = repo.create_faq(
+faq_id = repo.create_faq(
     question_type='preis',
     question='Was kostet das?',
     answer='Der Preis beträgt {price} Euro.'

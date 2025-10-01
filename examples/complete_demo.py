@@ -139,29 +139,29 @@ def demo_database_operations(system):
         
         # Create test customer
         print("\n[1] Creating Test Customer")
-        customer = system.repository.create_customer(
+        customer_id = system.repository.create_customer(
             name="Max Mustermann",
             phone="+49123456789",
             email="max@example.com",
             company="Test GmbH"
         )
-        print(f"✓ Created customer: {customer.name} (ID: {customer.id})")
+        print(f"✓ Created customer with ID: {customer_id}")
         
         # Create test call
         print("\n[2] Creating Test Call")
-        call = system.repository.create_call(
+        call_db_id = system.repository.create_call(
             call_id="demo-call-001",
             phone_number="+49123456789",
-            customer_id=customer.id,
+            customer_id=customer_id,
             state="completed",
             outcome="success"
         )
-        print(f"✓ Created call: {call.call_id}")
+        print(f"✓ Created call with DB ID: {call_db_id}")
         
         # Add conversation log
         print("\n[3] Adding Conversation Log")
         system.repository.add_conversation_log(
-            call_id=call.id,
+            call_id=call_db_id,
             speaker="agent",
             text="Guten Tag! Hier spricht Sarah von Callaiag.",
             state="greeting"
@@ -170,7 +170,7 @@ def demo_database_operations(system):
         
         # Retrieve data
         print("\n[4] Retrieving Data")
-        retrieved_customer = system.repository.get_customer(customer.id)
+        retrieved_customer = system.repository.get_customer(customer_id)
         print(f"✓ Retrieved customer: {retrieved_customer.name}")
         
     except Exception as e:

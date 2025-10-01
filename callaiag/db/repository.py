@@ -112,15 +112,15 @@ class Repository:
     
     # Customer operations
     
-    def create_customer(self, name: str, phone: str, **kwargs) -> Customer:
-        """Create a new customer."""
+    def create_customer(self, name: str, phone: str, **kwargs) -> int:
+        """Create a new customer. Returns customer ID."""
         with self.session_scope() as session:
             customer = Customer(name=name, phone=phone, **kwargs)
             session.add(customer)
             session.flush()
-            session.refresh(customer)
-            logger.info(f"Created customer: {customer.id} - {name}")
-            return customer
+            customer_id = customer.id
+            logger.info(f"Created customer: {customer_id} - {name}")
+            return customer_id
     
     def get_customer_by_phone(self, phone: str) -> Optional[Customer]:
         """Get customer by phone number."""
@@ -154,15 +154,15 @@ class Repository:
     
     # Call operations
     
-    def create_call(self, call_id: str, phone_number: str, **kwargs) -> Call:
-        """Create a new call record."""
+    def create_call(self, call_id: str, phone_number: str, **kwargs) -> int:
+        """Create a new call record. Returns database ID."""
         with self.session_scope() as session:
             call = Call(call_id=call_id, phone_number=phone_number, **kwargs)
             session.add(call)
             session.flush()
-            session.refresh(call)
-            logger.info(f"Created call: {call.id} - {call_id}")
-            return call
+            db_id = call.id
+            logger.info(f"Created call: {db_id} - {call_id}")
+            return db_id
     
     def get_call(self, call_id: str) -> Optional[Call]:
         """Get call by call_id."""
@@ -238,15 +238,15 @@ class Repository:
     
     # Script operations
     
-    def create_script(self, name: str, script_type: str, template: str, **kwargs) -> Script:
-        """Create a new script."""
+    def create_script(self, name: str, script_type: str, template: str, **kwargs) -> int:
+        """Create a new script. Returns script ID."""
         with self.session_scope() as session:
             script = Script(name=name, script_type=script_type, template=template, **kwargs)
             session.add(script)
             session.flush()
-            session.refresh(script)
+            script_id = script.id
             logger.info(f"Created script: {name}")
-            return script
+            return script_id
     
     def get_scripts_by_type(self, script_type: str) -> List[Script]:
         """Get scripts by type."""
@@ -261,15 +261,15 @@ class Repository:
     
     # FAQ operations
     
-    def create_faq(self, question_type: str, question: str, answer: str, **kwargs) -> FAQ:
-        """Create a new FAQ."""
+    def create_faq(self, question_type: str, question: str, answer: str, **kwargs) -> int:
+        """Create a new FAQ. Returns FAQ ID."""
         with self.session_scope() as session:
             faq = FAQ(question_type=question_type, question=question, answer=answer, **kwargs)
             session.add(faq)
             session.flush()
-            session.refresh(faq)
+            faq_id = faq.id
             logger.info(f"Created FAQ: {question_type}")
-            return faq
+            return faq_id
     
     def get_faq(self, question_type: str) -> Optional[FAQ]:
         """Get FAQ by type."""

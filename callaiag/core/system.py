@@ -97,7 +97,9 @@ class CallaiagSystem:
             
             # Initialize database
             self.repository = Repository(self.config)
+            self.repository.connect()
             self.repository.initialize_schema()
+            self.repository.disconnect()
             
             logger.info("System initialization completed successfully")
             print("\n✓ System initialized successfully!")
