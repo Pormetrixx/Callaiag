@@ -1,0 +1,65 @@
+general:
+  debug: false
+  log_level: INFO
+  language: de-DE
+database:
+  type: sqlite
+  path: ./data/callaiag.db
+  host: localhost
+  port: 3306
+  name: callaiag
+  user: callaiag
+  password: change_me
+asterisk:
+  enabled: true
+  host: localhost
+  port: 5038
+  username: callaiag
+  password: change_me
+  context: outbound
+  extension: s
+  priority: 1
+  channel_type: SIP
+  caller_id: Callaiag <1000>
+  trunk: trunk
+speech:
+  stt:
+    engine: whisper
+    whisper_model: medium
+    language: de
+    device: cpu
+  tts:
+    engine: mimic3
+    voice: de_DE/thorsten-emotional
+    rate: 1.0
+    pitch: 0.0
+    volume: 1.0
+  audio:
+    input_device: null
+    output_device: null
+    sample_rate: 16000
+    channels: 1
+    format: wav
+    temp_dir: ./temp
+conversation:
+  default_script: default
+  timeout: 10.0
+  max_duration: 300
+  emotion_threshold: 0.7
+  scripts_dir: ./scripts
+  faqs_dir: ./faqs
+dashboard:
+  enabled: true
+  port: 8080
+  host: 0.0.0.0
+  admin_user: admin
+  admin_password: admin123
+  session_timeout: 3600
+emotion:
+  enabled: true
+  model_path: ./models/emotion
+  confidence_threshold: 0.6
+training:
+  enabled: true
+  min_calls_for_training: 100
+  auto_retrain: false

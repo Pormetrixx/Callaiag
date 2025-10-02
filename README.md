@@ -54,33 +54,57 @@ A comprehensive AI agent system for automated cold calling with local speech pro
 
 ## Installation
 
-### Automated Installation
+### Quick Start
+
 ```bash
-# Complete system installation (Ubuntu Server 22.04 LTS)
+# Clone repository
+git clone https://github.com/Pormetrixx/Callaiag.git
+cd Callaiag
+
+# Run automated installation
 sudo bash install.sh
 
 # System management
 ./admin.sh status
 ./admin.sh start
+./admin.sh logs
 
 # Access web dashboard
-http://your-server-ip/aiagent
-# Login: admin / admin123
+# http://your-server-ip:8080
+# Login: admin / admin123 (CHANGE THIS!)
 ```
 
-### Manual Setup (Alternative)
+### Installation Guides
+
+📖 **[Quick Start Guide](docs/QUICK_START.md)** - Get up and running in 5 minutes  
+📖 **[Complete Installation Guide A-Z](docs/COMPLETE_INSTALLATION_GUIDE.md)** - Comprehensive step-by-step instructions  
+📖 **[Detailed Installation Options](docs/INSTALL.md)** - Manual, Docker, and advanced setups
+
+### Alternative Setup Methods
+
+**Manual Setup:**
 ```bash
-# Traditional setup method
-./setup.sh
+# Install dependencies
+sudo apt install -y python3 python3-pip python3-venv ffmpeg
 
-# Initialize configuration
+# Create virtual environment
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+
+# Initialize system
 python3 run.py init
-
-# Validate setup
 python3 run.py validate
-
-# Start the agent
 python3 run.py start
+```
+
+**Docker Setup:**
+```bash
+# Start with Docker Compose
+docker-compose up -d
+
+# Check status
+docker-compose ps
 ```
 
 ## Development & Testing
